@@ -1,0 +1,678 @@
+/* ========================================
+   1. CONFIGURAÇÕES GERAIS E VARIÁVEIS
+======================================== */
+:root {
+  --bg-main: #0f1117;
+  --bg-card: #171923;
+  --bg-select: #151a2e;
+  --border-color: #2a2d3a;
+  --primary: #4f46e5;
+  --primary-hover: #6d5dfc;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --text-white: #ffffff;
+  --text-muted: #a0a0a0;
+  --text-label: #9e9e9e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: var(--bg-main);
+  color: var(--text-white);
+}
+
+.section-divider, hr {
+  width: 100%;
+  height: 1px;
+  background: var(--border-color);
+  border: none;
+  margin: 40px 0;
+}
+
+hr {
+  margin: 15px 0;
+}
+
+/* ========================================
+   2. ESTRUTURA BASE E SIDEBAR
+======================================== */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+header {
+  margin-bottom: 40px;
+}
+
+header h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+header p {
+  color: var(--text-label);
+  font-size: 18px;
+}
+
+.sidebar {
+  width: 250px;
+  background: var(--bg-card);
+  padding: 30px;
+  border-right: 1px solid var(--border-color);
+}
+
+.sidebar h2 {
+  font-size: 22px;
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 50px;
+  white-space: nowrap;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  display: block;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.sidebar a:hover {
+  color: var(--text-white);
+  transform: translateX(5px);
+}
+
+/* ========================================
+   3. CARDS DO PAINEL (DASHBOARD & METAS)
+======================================== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: var(--bg-card);
+  padding: 30px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+.card h3 {
+  color: var(--text-label);
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.card p {
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.card-wide {
+  grid-column: span 3;
+}
+
+.meta-empty {
+  text-align: center;
+  margin-top: 30px;
+  color: var(--text-label);
+}
+
+/* ========================================
+   4. FORMULÁRIOS E CAMPOS DE ENTRADA
+======================================== */
+.tasks {
+  margin-top: 15px;
+}
+
+.tasks h2 {
+  margin-bottom: 20px;
+}
+
+.task-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.task-input input {
+  flex: 1;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: var(--text-white);
+  font-size: 16px;
+}
+
+.task-input input:focus {
+  outline: 2px solid var(--primary);
+}
+
+.task-input select, 
+#taskCategory, 
+#taskPriority {
+  height: 48px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  background: var(--bg-select);
+  color: var(--text-white);
+  font-size: 15px;
+  min-width: 180px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#taskPriority {
+  min-width: 170px;
+}
+
+.task-input select:hover, 
+#taskCategory:hover {
+  background: #1b2240;
+}
+
+#taskCategory:focus {
+  box-shadow: 0 0 0 2px rgba(109, 93, 252, 0.3);
+}
+
+.task-input button {
+  height: 48px;
+  padding: 0 25px;
+  border: none;
+  border-radius: 12px;
+  background: var(--primary-hover);
+  color: var(--text-white);
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.task-input button:hover {
+  transform: scale(1.03);
+}
+
+/* ========================================
+   5. LISTAGEM DE TAREFAS E CONTEÚDO
+======================================== */
+#taskList {
+  list-style: none;
+}
+
+#taskList li {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color 0.3s ease;
+}
+
+#taskList li:hover {
+  border-color: var(--primary);
+}
+
+.check-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.check-container input {
+  width: 18px;
+  height: 18px;
+}
+
+.completed, .done {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.task-tags {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.task-category {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(124, 92, 255, 0.15);
+  color: #a78bfa;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.task-priority {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.task-actions button, 
+#taskList button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 5px;
+  transition: transform 0.2s ease;
+}
+
+#taskList button:hover {
+  transform: scale(1.2);
+}
+
+/* ========================================
+   6. MÓDULO GAMIFICAÇÃO & JARDIM FLORESTA
+======================================= */
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  margin-top: 15px;
+  background: var(--border-color);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+#progressFill {
+  width: 0%;
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+#plantStage {
+  font-size: 56px;
+  margin: 15px 0;
+  text-align: center;
+}
+
+#plantProgress {
+  margin-top: 5px;
+  color: var(--text-muted);
+  font-size: 16px;
+  text-align: center;
+}
+
+#gardenArea {
+  display: none;
+  margin-top: 15px;
+  font-size: 28px;
+  line-height: 1.8;
+}
+
+#treeCounter, #levelText {
+  font-size: 32px;
+  text-align: center;
+}
+
+#levelFill {
+  width: 0%;
+  height: 100%;
+  background: gold;
+  transition: width 0.3s ease;
+}
+
+#xpText {
+  font-size: 14px;
+  text-align: center;
+  margin-top: 10px;
+  color: var(--text-muted);
+}
+
+#newDayButton, #toggleGardenButton {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  color: var(--text-white);
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#newDayButton {
+  background: var(--success);
+  margin-bottom: 20px;
+}
+
+#toggleGardenButton {
+  width: 100%;
+  margin-top: 15px;
+  background: var(--primary);
+}
+
+#newDayButton:hover, #toggleGardenButton:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* ========================================
+   7. MÓDULO FINANCEIRO
+======================================== */
+#monthFilter {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-card);
+  color: var(--text-white);
+  font-size: 15px;
+}
+
+#monthFilter:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+#financeMonth {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.finance-label {
+  color: #777;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+#balanceText {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.finance-summary {
+  border-top: 1px solid var(--border-color);
+  margin-top: 15px;
+  padding-top: 15px;
+}
+
+.income, #incomeText, .income-value {
+  color: var(--success);
+}
+
+.expense, #expenseText, .expense-value {
+  color: var(--danger);
+}
+
+#incomeText {
+  margin-bottom: 8px;
+}
+
+.finance-description {
+  color: var(--text-white);
+  font-weight: bold;
+  display: block;
+}
+
+.finance-date {
+  color: var(--text-label);
+  font-size: 12px;
+  display: block;
+  margin-top: 4px;
+}
+
+.income-value, .expense-value {
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
+#financeHistory {
+  margin-top: 20px;
+}
+
+#financeHistory li {
+  list-style: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-finance {
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.month-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+.month-card h3 { margin-bottom: 10px; }
+.month-card p { margin: 5px 0; }
+
+.month-card summary, .smart-guide summary {
+  cursor: pointer;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.month-card summary { margin-top: 10px; }
+
+.month-details {
+  margin-top: 15px;
+}
+
+.month-details p, .history-line {
+  margin-bottom: 10px;
+}
+
+.history-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  color: var(--text-white);
+  font-size: 14px;
+}
+
+#toggleFinanceHistory {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: bold;
+  transition: border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+#toggleFinanceHistory:hover {
+  border-color: var(--primary);
+  color: var(--text-white);
+  transform: translateY(-2px);
+}
+
+/* ========================================
+   8. COMPONENTES EXTRA (MÉTODO SMART)
+======================================== */
+.smart-guide {
+  margin-top: 15px;
+  margin-bottom: 40px;
+  color: var(--text-muted);
+}
+
+.smart-content {
+  margin-top: 10px;
+  padding: 15px;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+}
+
+/* ========================================
+   9. RESPONSIVIDADE (MEDIA QUERIES)
+======================================== */
+@media (max-width: 1200px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .card-wide {
+    grid-column: span 1;
+  }
+
+  .task-input {
+    flex-direction: column;
+  }
+  
+  .task-input select, 
+  #taskCategory, 
+  #taskPriority {
+    width: 100%;
+  }
+}
+
+/* ========================================
+   10. ESTILIZAÇÃO DO RODAPÉ (FOOTER)
+======================================== */
+.main-footer {
+  margin-top: 40px;
+  padding: 20px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+  width: 100%;
+}
+
+.main-footer p {
+  color: #64748b;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================
+   11. SISTEMA DE AVATAR DO PERFIL 
+========================================== */
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  background-color: #1f2937;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  border: 2px solid #374151;
+  transition: transform 0.2s ease;
+}
+
+.btn-mudar-foto {
+  background-color: #374151;
+  color: #ffffff;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-mudar-foto:hover {
+  background-color: #4b5563;
+}
+
+.avatar-modal {
+  display: none; 
+  padding: 20px; 
+  background-color: #1f2937; 
+  border: 1px solid #374151;
+  border-radius: 12px; 
+  margin-top: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+}
+
+.avatar-options {
+  font-size: 36px; 
+  display: flex; 
+  gap: 20px; 
+  justify-content: center;
+}
+
+.avatar-options span {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.avatar-options span:hover, .avatar-circle:hover {
+  transform: scale(1.15);
+}
