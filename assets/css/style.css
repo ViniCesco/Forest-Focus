@@ -648,7 +648,7 @@ header p {
 }
 
 /* ========================================
-   12. RESPONSIVIDADE MOBILE 
+   12. RESPONSIVIDADE MOBILE OTIMIZADA
 ======================================== */
 
 @media (max-width: 768px) {
@@ -657,23 +657,24 @@ header p {
   }
 
   .main-content {
-    padding: 20px;
+    padding: 15px; 
   }
 
   header {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
     gap: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
   }
 
   header h1 {
-    font-size: 28px;
+    font-size: 24px; 
     margin-bottom: 5px;
   }
 
   header p {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   header div, 
@@ -683,17 +684,25 @@ header p {
   *[id*="nivel"] {
     position: static !important;
     width: 100% !important;
-    margin-top: 10px;
+    margin-top: 5px;
+  }
+
+  .user-level-top {
+    min-width: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box;
   }
 
   .sidebar {
     width: 100%;
-    padding: 15px 20px;
+    padding: 15px 15px 10px 15px;
     border-right: none;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     position: sticky;
     top: 0;
     z-index: 999;
+    background: #1e1e2f; 
+    box-sizing: border-box;
   }
 
   .sidebar h2 {
@@ -705,31 +714,42 @@ header p {
   }
 
   .sidebar nav {
-    flex-direction: row !important;
-    gap: 20px;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding-bottom: 8px;
-    scrollbar-width: none; /* Oculta barra no Firefox */
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 10px;
+    width: 100%;
   }
 
-  .sidebar nav::-webkit-scrollbar {
-    display: none; /* Oculta barra no Chrome/Safari */
-  }
-
-  .sidebar a {
-    font-size: 15px;
-    display: inline-flex;
+  .sidebar a, 
+  .sidebar nav a {
+    font-size: 14px;
+    display: flex !important;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
     background: rgba(255, 255, 255, 0.03);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    text-decoration: none;
+    margin: 0 !important;
+    box-sizing: border-box;
+  }
+
+  .sidebar nav a[href*="youtube.com"] {
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+    background: rgba(16, 185, 129, 0.05) !important;
+  }
+
+  .sidebar nav::after {
+    display: none !important;
   }
 
   .cards {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr !important; /* Uma coluna por linha */
+    gap: 15px;
   }
 
   .card {
@@ -740,8 +760,13 @@ header p {
     grid-column: span 1;
   }
 
+  .card-dash {
+    min-height: 120px !important;
+  }
+
   .task-input {
     flex-direction: column;
+    gap: 10px;
   }
 
   .task-input input,
@@ -749,11 +774,13 @@ header p {
   .task-input select,
   #taskCategory, 
   #taskPriority {
-    width: 100%;
+    width: 100% !important;
+    box-sizing: border-box;
   }
 
   .task-input button {
     margin-top: 5px;
+    padding: 12px;
   }
 
   #taskList li,
@@ -761,6 +788,7 @@ header p {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+    padding: 12px;
   }
 
   .task-actions {
@@ -778,6 +806,10 @@ header p {
 
   .month-card h3 {
     font-size: 20px;
+  }
+
+  .progress-bar {
+    width: 100%;
   }
 
   #plantStage {
