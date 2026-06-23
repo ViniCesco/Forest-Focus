@@ -162,7 +162,7 @@ function configurarLembretes() {
       
       const alertas = [
         { id: 'manha', hora: 8, minuto: 0, titulo: 'Foco Inicial! 🚀', texto: 'Novo dia, novas metas. Abra o Forest Focus e organize suas prioridades.' },
-        { id: 'tarde', hora: 14, minuto: 0, titulo: 'Check-in de Produtividade! 📊', texto: 'Não perca o ritmo! Dê uma olhada no que ainda falta concluir hoje.' },
+        { id: 'tarde', hora: 14, minuto: 10, titulo: 'Check-in de Produtividade! 📊', texto: 'Não perca o ritmo! Dê uma olhada no que ainda falta concluir hoje.' },
         { id: 'noite', hora: 22, minuto: 0, titulo: 'Revisão Concluída? 🌳', texto: 'Hora de fechar a conta! Registre seus gastos antes de dormir e prepare o terreno para amanhã.' }
       ];
 
@@ -182,8 +182,8 @@ function configurarLembretes() {
           setTimeout(() => {
             registration.showNotification(alerta.titulo, {
               body: alerta.texto,
-              icon: './assets/img/logo-192.png', 
-              badge: './assets/img/favicon.png',
+              icon: 'assets/img/logo-192.png', 
+              badge: 'assets/img/favicon.png',
               tag: alerta.id
             });
           }, tempoRestante);
