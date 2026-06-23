@@ -148,23 +148,13 @@ function renderDashboardGoals() {
 }
 
 /* ----------------------------------------------
-   6. SISTEMA DE LEMBRETES (NOTIFICAÇÕES)
+   6. REGISTRO DO SERVICE WORKER (OFFLINE)
 -----------------------------------------------*/
 
-/* Função que apenas solicita a permissão de notificações no carregamento */
-/* ----------------------------------------------
-   6. SISTEMA DE LEMBRETES (NOTIFICAÇÕES)
------------------------------------------------*/
-
-/* Função que apenas solicita a permissão de notificações no carregamento */
-function configurarLembretes() {
-  if (!('Notification' in window)) return;
-
-  Notification.requestPermission().then(permission => {
-    if (permission === 'granted') {
-      console.log('Permissão de notificações concedida!');
-    }
-  });
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js')
+    .then(() => console.log('Modo offline ativado com sucesso!'))
+    .catch(err => console.error('Erro ao ativar modo offline:', err));
 }
 
 /* ----------------------------------------------
@@ -177,5 +167,4 @@ document.addEventListener("DOMContentLoaded", () => {
   updatePlantDashboard();
   updateLevelDashboard();
   renderDashboardGoals();
-  configurarLembretes();
 });
