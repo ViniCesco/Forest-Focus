@@ -679,9 +679,9 @@ header p {
 
   header div, 
   .avatar-modal + div,
-  *[class*="nivel"], 
-  *[id*="level"],
-  *[id*="nivel"] {
+  *[class*="nivel"]:not(.progress-bar):not(#levelFill), 
+  *[id*="level"]:not(.progress-bar):not(#levelFill),
+  *[id*="nivel"]:not(.progress-bar):not(#levelFill) {
     position: static !important;
     width: 100% !important;
     margin-top: 5px;

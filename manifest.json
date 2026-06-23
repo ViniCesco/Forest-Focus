@@ -1,6 +1,6 @@
 {
-  "name": "Nome Completo do Seu App",
-  "short_name": "NomeCurto",
+  "name": "Forest Focus",
+  "short_name": "Forest Focus",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
