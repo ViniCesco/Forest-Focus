@@ -151,46 +151,18 @@ function renderDashboardGoals() {
    6. SISTEMA DE LEMBRETES (NOTIFICAÇÕES)
 -----------------------------------------------*/
 
-/* Função que pede permissão para enviar notificações e agenda os horários */
-function configurarLembretes() {
+/* Função que apenas solicita a permissão de notificações no carregamento */
+/* ----------------------------------------------
+   6. SISTEMA DE LEMBRETES (NOTIFICAÇÕES)
+-----------------------------------------------*/
 
+/* Função que apenas solicita a permissão de notificações no carregamento */
+function configurarLembretes() {
   if (!('Notification' in window)) return;
 
   Notification.requestPermission().then(permission => {
     if (permission === 'granted') {
-      console.log('Permissão concedida! Agendando lembretes...');
-      
-      const alertas = [
-        { id: 'manha', hora: 8, minuto: 0, titulo: 'Foco Inicial! 🚀', texto: 'Novo dia, novas metas. Abra o Forest Focus e organize suas prioridades.' },
-        { id: 'tarde', hora: 14, minuto: 13, titulo: 'Check-in de Produtividade! 📊', texto: 'Não perca o ritmo! Dê uma olhada no que ainda falta concluir hoje.' },
-        { id: 'noite', hora: 22, minuto: 0, titulo: 'Revisão Concluída? 🌳', texto: 'Hora de fechar a conta! Registre seus gastos antes de dormir e prepare o terreno para amanhã.' }
-      ];
-
-      navigator.serviceWorker.ready.then(registration => {
-        alertas.forEach(alerta => {
-          const agora = new Date();
-          let momentoAlarme = new Date();
-          
-          momentoAlarme.setHours(alerta.hora, alerta.minuto, 0, 0);
-
-          if (momentoAlarme <= agora) {
-            momentoAlarme.setDate(momentoAlarme.getDate() + 1);
-          }
-
-          const tempoRestante = momentoAlarme.getTime() - agora.getTime();
-
-          setTimeout(() => {
-            registration.showNotification(alerta.titulo, {
-              body: alerta.texto,
-              icon: 'assets/img/logo-192.png', 
-              badge: 'assets/img/favicon.png',
-              tag: alerta.id
-            });
-          }, tempoRestante);
-          
-          console.log(`Alarme da ${alerta.id} programado para:`, momentoAlarme.toLocaleTimeString());
-        });
-      });
+      console.log('Permissão de notificações concedida!');
     }
   });
 }
