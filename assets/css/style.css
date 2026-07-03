@@ -105,44 +105,54 @@ header p {
 /* ========================================
    3. CARDS DO PAINEL (DASHBOARD & METAS)
 ======================================== */
+/* --- AJUSTES DO DASHBOARD GRID --- */
+
+/* Garante que a seção principal limpe estilos antigos de grid global */
 .cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+    width: 100%;
 }
 
-.card {
-  background: var(--bg-card);
-  padding: 30px;
-  border-radius: 20px;
-  border: 1px solid var(--border-color);
-  transition: transform 0.3s ease, border-color 0.3s ease;
+/* Força os cards internos a respeitarem a altura interna e layouts flex/grid */
+.card-dash {
+    background: #1e1e2f; /* Mantém o fundo padrão escuro */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  border-color: var(--primary);
+/* Efeito de Hover sutil padrão para os novos blocos */
+.card-dash:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-.card h3 {
-  color: var(--text-label);
-  margin-bottom: 15px;
-  font-size: 18px;
-}
-
-.card p {
-  font-weight: bold;
-  line-height: 1.5;
-}
-
-.card-wide {
-  grid-column: span 3;
-}
-
-.meta-empty {
-  text-align: center;
-  margin-top: 30px;
-  color: var(--text-label);
+/* Responsividade básica para telas menores (Notebooks e Tablets) */
+@media (max-width: 900px) {
+    .card-dash[style*="grid-template-columns: repeat(3, 1fr)"],
+    div[style*="grid-template-columns: repeat(3, 1fr)"] {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+    
+    div[style*="grid-template-columns: repeat(2, 1fr)"] {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+    }
+    
+    /* Remove as bordas laterais do topo unificado no mobile */
+    .metric-item {
+        border-right: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 15px !important;
+        margin-bottom: 10px;
+    }
+    .metric-item:last-child {
+        border-bottom: none !important;
+        padding-bottom: 0 !important;
+    }
 }
 
 /* ========================================
@@ -648,54 +658,15 @@ header p {
 }
 
 /* ========================================
-   12. RESPONSIVIDADE MOBILE OTIMIZADA
+   12. RESPONSIVIDADE MOBILE OTIMIZADA (COM MENU RECOLHÍVEL)
 ======================================== */
 
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .main-content {
-    padding: 15px; 
-  }
-
-  header {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 15px;
-    margin-bottom: 25px;
-  }
-
-  header h1 {
-    font-size: 24px; 
-    margin-bottom: 5px;
-  }
-
-  header p {
-    font-size: 14px;
-  }
-
-  header div, 
-  .avatar-modal + div,
-  *[class*="nivel"]:not(.progress-bar):not(#levelFill), 
-  *[id*="level"]:not(.progress-bar):not(#levelFill),
-  *[id*="nivel"]:not(.progress-bar):not(#levelFill) {
-    position: static !important;
-    width: 100% !important;
-    margin-top: 5px;
-  }
-
-  .user-level-top {
-    min-width: 0 !important;
-    width: 100% !important;
-    box-sizing: border-box;
-  }
+  /* ... (mantenha suas regras de .container e .main-content aqui) ... */
 
   .sidebar {
     width: 100%;
-    padding: 15px 15px 10px 15px;
+    padding: 15px;
     border-right: none;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     position: sticky;
@@ -706,28 +677,60 @@ header p {
   }
 
   .sidebar h2 {
-    font-size: 18px;
-    margin-bottom: 15px;
-    text-align: center;
-    border-bottom: none;
-    padding-bottom: 0;
+    display: none; /* Esconde o título fixo para economizar espaço no mobile */
   }
 
+  /* Estilo do botão de expansão do menu */
+  .menu-toggle {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .menu-toggle .menu-icon {
+    transition: transform 0.3s ease;
+    font-size: 14px;
+    color: #a78bfa;
+  }
+
+  /* Oculta as opções de navegação por padrão no mobile */
   .sidebar nav {
-    display: grid !important;
+    display: none !important; 
     grid-template-columns: repeat(2, 1fr); 
     gap: 10px;
     width: 100%;
+    margin-top: 10px;
   }
 
+  /* TRUQUE CSS: Quando o botão ou a própria barra recebe o clique/foco, o menu abre! */
+  .sidebar:focus-within nav {
+    display: grid !important;
+  }
+
+  /* Rotaciona a seta para baixo "▼" quando o menu estiver aberto */
+  .sidebar:focus-within .menu-toggle .menu-icon {
+    transform: rotate(90deg);
+  }
+
+  /* Estilização interna dos links do menu */
   .sidebar a, 
   .sidebar nav a {
-    font-size: 14px;
+    font-size: 13px;
     display: flex !important;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 12px;
+    padding: 12px 8px;
     background: rgba(255, 255, 255, 0.03);
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.05);
@@ -735,6 +738,7 @@ header p {
     text-decoration: none;
     margin: 0 !important;
     box-sizing: border-box;
+    color: #fff;
   }
 
   .sidebar nav a[href*="youtube.com"] {
@@ -746,84 +750,565 @@ header p {
     display: none !important;
   }
 
-  .cards {
+  /* ... (mantenha o restante das suas regras do @media: .cards, .task-input, etc) ... */
+}
+
+/* Oculta o botão de menu nas telas de Computador/Desktop */
+@media (min-width: 769px) {
+  .menu-toggle {
+    display: none !important;
+  }
+}
+
+/* ========================================
+   13. MÓDULO CALENDÁRIO
+======================================== */
+
+.calendar-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    gap:20px;
+}
+
+.calendar-header h2{
+    flex:1;
+    text-align:center;
+    font-size:28px;
+    color:var(--text-white);
+}
+
+.calendar-header button,
+#todayButton{
+    background:var(--bg-card);
+    border:1px solid var(--border-color);
+    color:var(--text-white);
+    padding:12px 18px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.25s;
+    font-size:15px;
+    font-weight:600;
+}
+
+.calendar-header button:hover,
+#todayButton:hover{
+    border-color:var(--primary);
+    background:var(--primary);
+    transform:translateY(-2px);
+}
+
+#todayButton{
+    margin-bottom:20px;
+}
+
+.calendar-weekdays{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    margin-bottom:10px;
+    text-align:center;
+    color:var(--text-label);
+    font-weight:bold;
+}
+
+.calendar-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:10px;
+}
+
+.calendar-day{
+    background:var(--bg-card);
+    border:1px solid var(--border-color);
+    border-radius:16px;
+    min-height:120px;
+    padding:12px;
+    cursor:pointer;
+    transition:.25s;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+}
+
+.calendar-day:hover{
+    border-color:var(--primary);
+    transform:translateY(-3px);
+}
+
+.calendar-day-number{
+    font-size:18px;
+    font-weight:bold;
+}
+
+.calendar-other-month{
+    opacity:.35;
+}
+
+.calendar-today{
+    border:2px solid var(--primary);
+    box-shadow:0 0 15px rgba(79,70,229,.25);
+}
+
+.event-dots{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-top:10px;
+}
+
+.event-dot{
+    width:8px;
+    height:8px;
+    background:var(--success);
+    border-radius:50%;
+}
+
+.event-preview{
+    margin-top:8px;
+    font-size:12px;
+    color:var(--text-muted);
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+#eventList{
+    margin-top:20px;
+}
+
+.event-card{
+    background:var(--bg-card);
+    border:1px solid var(--border-color);
+    border-radius:15px;
+    padding:18px;
+    margin-bottom:15px;
+    transition:.25s;
+}
+
+.event-card:hover{
+    border-color:var(--primary);
+}
+
+.event-card h3{
+    margin-bottom:8px;
+    font-size:19px;
+}
+
+.event-info{
+    color:var(--text-muted);
+    font-size:14px;
+    margin:5px 0;
+}
+
+.event-description{
+    margin-top:12px;
+    line-height:1.5;
+}
+
+.event-actions{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin-top:18px;
+}
+
+.event-actions button{
+    background:none;
+    border:none;
+    cursor:pointer;
+    font-size:18px;
+    transition:.2s;
+}
+
+.event-actions button:hover{
+    transform:scale(1.2);
+}
+
+.empty-events{
+    text-align:center;
+    color:var(--text-muted);
+    padding:35px;
+    background:var(--bg-card);
+    border:1px dashed var(--border-color);
+    border-radius:15px;
+}
+
+@media(max-width:900px){
+
+    .calendar-grid{
+        gap:6px;
+    }
+
+    .calendar-day{
+        min-height:85px;
+        padding:8px;
+    }
+
+    .calendar-day-number{
+        font-size:15px;
+    }
+
+    .calendar-header{
+        flex-wrap:wrap;
+    }
+
+    .calendar-header h2{
+        order:-1;
+        width:100%;
+        margin-bottom:10px;
+        font-size:22px;
+    }
+
+    .calendar-weekdays{
+        font-size:12px;
+    }
+
+}
+
+/* ========================================
+   14. EVENTOS CONCLUÍDOS
+======================================== */
+
+.event-completed{
+
+    opacity:.55;
+
+    border-color:#22c55e;
+
+}
+
+.event-completed h3{
+
+    text-decoration:line-through;
+
+    color:#22c55e;
+
+}
+
+.event-actions{
+
+    margin-top:18px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.event-actions label{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    cursor:pointer;
+
+    user-select:none;
+
+}
+
+.event-actions input{
+
+    width:18px;
+
+    height:18px;
+
+    cursor:pointer;
+
+}
+
+.event-actions button{
+
+    background:none;
+
+    border:none;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.event-actions button:hover{
+
+    transform:scale(1.2);
+
+}
+
+.edit-btn,
+.delete-btn{
+
+    background:none;
+    border:none;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    margin-left:8px;
+
+}
+
+.edit-btn:hover{
+
+    transform:scale(1.15);
+
+}
+
+.delete-btn{
+
+    color:#ef4444;
+
+}
+
+.delete-btn:hover{
+
+    transform:scale(1.15);
+
+    color:#dc2626;
+
+}
+
+.event-buttons{
+
+    display:flex;
+    gap:8px;
+
+}
+
+.edit-btn,
+.delete-btn{
+
+    width:34px;
+    height:34px;
+
+    border:none;
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    transition:.2s;
+
+}
+
+.edit-btn{
+
+    background:#3b82f620;
+
+}
+
+.edit-btn:hover{
+
+    background:#3b82f650;
+
+}
+
+.delete-btn{
+
+    background:#ef444420;
+    color:#ef4444;
+
+}
+
+.delete-btn:hover{
+
+    background:#ef444450;
+
+}
+
+/* ========================================
+   15. MÓDULO ESTADO DE ENERGIA E FOCO
+======================================== */
+
+.mood-selector {
     display: grid;
-    grid-template-columns: 1fr !important; /* Uma coluna por linha */
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 15px;
-  }
+    margin-top: 20px;
+}
 
-  .card {
-    padding: 20px;
-  }
-  
-  .card-wide {
-    grid-column: span 1;
-  }
-
-  .card-dash {
-    min-height: 120px !important;
-  }
-
-  .task-input {
+.mood-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 16px;
+    cursor: pointer;
+    display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 10px;
-  }
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .task-input input,
-  .task-input button,
-  .task-input select,
-  #taskCategory, 
-  #taskPriority {
-    width: 100% !important;
-    box-sizing: border-box;
-  }
+.mood-btn:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-  .task-input button {
-    margin-top: 5px;
-    padding: 12px;
-  }
+.mood-btn.selected {
+    border-color: #22c55e;
+    background: rgba(34, 197, 94, 0.1);
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.2);
+    transform: scale(1.02);
+}
 
-  #taskList li,
-  #financeHistory li {
+.mood-emoji {
+    font-size: 28px;
+}
+
+.mood-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-white);
+    text-align: center;
+}
+
+.mood-history-list {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 12px;
-    padding: 12px;
-  }
+    margin-top: 15px;
+}
 
-  .task-actions {
+.mood-history-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    transition: border-color 0.2s;
+}
+
+.mood-history-item:hover {
+    border-color: var(--border-color);
+}
+
+.mood-history-main {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mood-history-status {
+    font-weight: bold;
+    color: var(--text-white);
+    font-size: 15px;
+}
+
+.mood-history-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.mood-history-date {
+    font-size: 13px;
+    color: var(--text-label);
+    white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+    .mood-history-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .mood-history-date {
+        align-self: flex-end;
+    }
+}
+
+/* ========================================
+   GRAFICO DE ENERGIA (CSS PURO)
+======================================== */
+.chart-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.chart-label-zone {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-white);
+    font-weight: 500;
+}
+
+.chart-bar-bg {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    height: 12px;
     width: 100%;
-    justify-content: flex-end;
-  }
+    overflow: hidden;
+}
 
-  .delete-finance {
-    align-self: flex-end;
-  }
+.chart-bar-fill {
+    height: 100%;
+    border-radius: 8px;
+    width: 0%;
+    transition: width 0.5s ease-out;
+}
 
-  .month-card {
-    padding: 15px;
-  }
+.bar-ultra { background: #3b82f6; } 
+.bar-alta { background: #22c55e; }  
+.bar-fadiga { background: #eab308; }
+.bar-bloqueio { background: #a855f7; } 
+.bar-exaustao { background: #ef4444; } 
 
-  .month-card h3 {
-    font-size: 20px;
-  }
+/* ========================================
+   CARDS DE RESUMO DO CALENDÁRIO
+======================================== */
 
-  .progress-bar {
-    width: 100%;
-  }
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    margin:25px 0;
+}
 
-  #plantStage {
-    font-size: 42px;
-  }
+.card{
+    background:var(--bg-card);
+    border:1px solid var(--border-color);
+    border-radius:18px;
+    padding:22px;
+    transition:.25s;
+}
 
-  #treeCounter,
-  #levelText {
-    font-size: 24px;
-  }
+.card:hover{
+    border-color:var(--primary);
+    transform:translateY(-3px);
+}
 
-  .avatar-circle {
-    width: 70px;
-    height: 70px;
-    font-size: 36px;
-  }
+.card h3{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:24px;
+    margin:0 0 12px 0;
+    color:var(--text-white);
+}
+
+.card p{
+    margin:0;
+    margin-left:34px;
+    color:var(--text-muted);
+    font-size:17px;
+    line-height:1.5;
 }

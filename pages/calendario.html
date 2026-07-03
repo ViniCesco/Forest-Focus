@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário - Forest Focus</title>
+
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <h2>🌱 Forest Focus</h2>
+
+        <button class="menu-toggle" aria-label="Abrir menu">
+            Menu <span class="menu-icon">❯</span>
+        </button>
+
+        <nav>
+            <a href="perfil.html">👤 Perfil</a>
+            <a href="energia.html">⚡ Energia</a>
+            <a href="../index.html">🚀 Dashboard</a>
+            <a href="tarefas.html">📋 Tarefas</a>
+            <a href="calendario.html">📅 Calendário</a>
+            <a href="financas.html">🪙 Finanças</a>
+            <a href="metas.html">🎯 Metas</a>
+            <a href="https://youtu.be/IvgZ4maSn4c" target="_blank" style="margin-top: 20px; color: #ffffff; border-top: 1px solid #374151; padding-top: 15px;">
+                📻 Rádio
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Conteúdo -->
+
+    <main class="main-content">
+
+        <header>
+
+            <h1>📅 Calendário</h1>
+
+            <p>Organize seus compromissos e visualize sua rotina.</p>
+
+        </header>
+
+
+        <section class="cards">
+
+            <div class="card">
+
+                <h3>📆 Hoje</h3>
+
+                <p id="todayCard">--/--/----</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>📌 Eventos do mês</h3>
+
+                <p id="monthEvents">0</p>
+
+            </div>
+
+            <div class="card">
+
+                <h3>⏰ Próximo evento</h3>
+
+                <p id="nextEvent">Nenhum evento</p>
+
+            </div>
+
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="tasks">
+
+            <div class="calendar-header">
+
+                <button id="prevMonth">
+                    ◀
+                </button>
+
+                <h2 id="calendarTitle">
+                    Junho 2026
+                </h2>
+
+                <button id="nextMonth">
+                    ▶
+                </button>
+
+            </div>
+
+            <button id="todayButton">
+                Hoje
+            </button>
+
+            <div class="calendar-weekdays">
+
+                <div>Dom</div>
+                <div>Seg</div>
+                <div>Ter</div>
+                <div>Qua</div>
+                <div>Qui</div>
+                <div>Sex</div>
+                <div>Sáb</div>
+
+            </div>
+
+            <div id="calendarGrid" class="calendar-grid">
+
+            </div>
+
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="tasks">
+
+            <h2>➕ Novo Evento</h2>
+
+            <div class="task-input">
+
+                <input
+                    type="text"
+                    id="eventTitle"
+                    placeholder="Título do evento">
+
+                <input
+                    type="date"
+                    id="eventDate">
+
+                <input
+                    type="time"
+                    id="eventTime">
+
+                <select id="eventCategory">
+
+                    <option selected disabled>
+
+                        Categoria
+
+                    </option>
+
+                    <option>📚 Estudos</option>
+
+                    <option>💼 Trabalho</option>
+
+                    <option>❤️ Saúde</option>
+
+                    <option>🏋 Academia</option>
+
+                    <option>🎮 Lazer</option>
+
+                    <option>💰 Pagamento</option>
+
+                    <option>📌 Outros</option>
+
+                </select>
+
+            </div>
+
+            <div class="task-input">
+
+                <input
+                    type="text"
+                    id="eventDescription"
+                    placeholder="Descrição (opcional)">
+
+                <button id="addEventButton">
+
+                    Adicionar Evento
+
+                </button>
+
+            </div>
+
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="tasks">
+
+            <h2 id="selectedDateTitle">
+
+                📅 Eventos do Dia
+
+            </h2>
+
+            <div id="eventList">
+
+            </div>
+
+        </section>
+
+        <footer class="main-footer" style="display:flex;justify-content:center;align-items:center;gap:12px;padding:20px 0;margin-top:30px;border-top:1px solid rgba(255,255,255,.05);flex-wrap:wrap;text-align:center;">
+
+            <p style="margin:0;color:#a0aec0;font-size:14px;">
+
+                &copy; 2026 Forest Focus.
+                Desenvolvido por <strong>CESCONETTO</strong>.
+
+                <span style="display:inline-block;margin-left:8px;font-size:11px;background:rgba(99,102,241,.15);color:#818cf8;padding:2px 8px;border-radius:12px;font-weight:600;border:1px solid rgba(99,102,241,.3);">
+
+                    v1.0
+
+                </span>
+
+            </p>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="../assets/js/calendario.js"></script>
+
+</body>
+
+</html>

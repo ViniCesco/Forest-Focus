@@ -20,6 +20,33 @@ function getMonthName(month) {
   return months[month];
 }
 
+/* Converte strings de data de forma segura (suporta AAAA-MM-DD e DD/MM/AAAA) */
+function parseCalendarDate(dateStr) {
+  if (!dateStr) return new Date();
+  
+  // Se o objeto de data já for uma instância de Date ou um timestamp numérico
+  if (dateStr instanceof Date) return dateStr;
+  if (typeof dateStr === 'number') return new Date(dateStr);
+  
+  // Se for uma string
+  if (typeof dateStr === 'string') {
+    // Se já for no formato ISO/US (AAAA-MM-DD)
+    if (dateStr.includes('-')) {
+      return new Date(dateStr + "T00:00:00");
+    }
+    
+    // Se for no formato BR (DD/MM/AAAA)
+    if (dateStr.includes('/')) {
+      const parts = dateStr.split('/');
+      if (parts.length === 3) {
+        return new Date(Number(parts[2]), Number(parts[1]) - 1, Number(parts[0]), 0, 0, 0);
+      }
+    }
+  }
+  
+  return new Date(dateStr);
+}
+
 /* ----------------------------------------------
    2. GERENCIAMENTO DE TAREFAS
 -----------------------------------------------*/
@@ -124,7 +151,7 @@ function renderDashboardGoals() {
   const savedGoals = JSON.parse(localStorage.getItem("forestGoals")) || [];
 
   if (savedGoals.length === 0) {
-    container.innerHTML = `<p style="color: #a0aec0; font-style: italic; margin: 0; font-size: 14px; text-align: center;">Nenhuma meta cadastrada ainda.</p__>`;
+    container.innerHTML = `<p style="color: #a0aec0; font-style: italic; margin: 0; font-size: 14px; text-align: center;">Nenhuma meta cadastrada ainda.</p>`;
     return;
   }
 
@@ -148,7 +175,125 @@ function renderDashboardGoals() {
 }
 
 /* ----------------------------------------------
-   6. REGISTRO DO SERVICE WORKER (OFFLINE)
+   6. INTEGRACAO DOS CARDS DE ENERGIA E EVENTOS
+-----------------------------------------------*/
+
+/* Auxiliar para mapear emojis do sistema de energia */
+function getDashboardEnergyEmoji(label) {
+  switch (label) {
+    case "Ultra Focado":        return "⚡";
+    case "Produtivo":           return "🔋";
+    case "Fadiga Mental":       return "📉";
+    case "Bloqueio Criativo":    return "🚫";
+    case "Instável/Distraído":  return "🎯";
+    case "Cansado/Exausto":     return "💤";
+    default:                    return "🔋";
+  }
+}
+
+/* 1. Atualiza o Card de Energia com o último registro feito */
+function updateDashboardEnergyCard() {
+  const emojiElement = document.getElementById("dashEnergyEmoji");
+  const labelElement = document.getElementById("dashEnergyLabel");
+  const noteElement = document.getElementById("dashEnergyNote");
+
+  if (!emojiElement || !labelElement || !noteElement) return;
+
+  const rawLogs = localStorage.getItem("forestMoodLogs");
+  
+  if (rawLogs) {
+    try {
+      const logs = JSON.parse(rawLogs);
+      if (logs && logs.length > 0) {
+        const latestLog = logs[0];
+        
+        labelElement.textContent = latestLog.mood;
+        emojiElement.textContent = getDashboardEnergyEmoji(latestLog.mood);
+        
+        if (latestLog.note && latestLog.note.trim() !== "") {
+          noteElement.textContent = `"${latestLog.note}"`;
+        } else {
+          noteElement.textContent = "Nenhuma observação registrada";
+        }
+        return;
+      }
+    } catch (e) {
+      console.error("Erro ao ler os logs de energia no painel:", e);
+    }
+  }
+
+  labelElement.textContent = "Sem Registros";
+  emojiElement.textContent = "💤";
+  noteElement.textContent = "Registre sua energia na aba Energia.";
+}
+
+/* 2. Atualiza o Card de Calendário com o evento futuro mais próximo */
+function updateDashboardNextEventCard() {
+  const titleElement = document.getElementById("dashEventTitle");
+  const badgeElement = document.getElementById("dashEventBadge");
+
+  if (!titleElement || !badgeElement) return;
+
+  // Corrigido para a chave real do seu sistema: forestCalendarEvents
+  const rawEvents = localStorage.getItem("forestCalendarEvents");
+  
+  if (rawEvents) {
+    try {
+      const events = JSON.parse(rawEvents);
+      if (events && events.length > 0) {
+        const now = new Date();
+        now.setHours(0, 0, 0, 0); // Zera hora para comparação de dias pura
+        
+        // Mapeia e analisa a leitura de datas futuras/atuais
+        const upcomingEvents = events
+          .map(ev => ({ 
+             ...ev, 
+             // Garante a leitura independente se a propriedade for 'date', 'start' ou 'data'
+             parsedDate: parseCalendarDate(ev.date || ev.start || ev.data) 
+          }))
+          .filter(ev => {
+             const tempDate = new Date(ev.parsedDate.getTime());
+             return tempDate.setHours(23, 59, 59, 999) >= now.getTime();
+          })
+          .sort((a, b) => a.parsedDate - b.parsedDate);
+
+        if (upcomingEvents.length > 0) {
+          const nextEvent = upcomingEvents[0];
+          
+          // Garante o título independente se for 'title' ou 'text'
+          titleElement.textContent = nextEvent.title || nextEvent.text || nextEvent.descricao;
+          
+          const day = String(nextEvent.parsedDate.getDate()).padStart(2, '0');
+          const month = String(nextEvent.parsedDate.getMonth() + 1).padStart(2, '0');
+          
+          const todayStr = new Date().toLocaleDateString('pt-BR');
+          const eventStr = nextEvent.parsedDate.toLocaleDateString('pt-BR');
+          
+          if (todayStr === eventStr) {
+            badgeElement.textContent = "Hoje";
+            badgeElement.style.color = "#e53e3e";
+            badgeElement.style.background = "rgba(229, 62, 62, 0.1)";
+          } else {
+            badgeElement.textContent = `${day}/${month}`;
+            badgeElement.style.color = "#3182ce";
+            badgeElement.style.background = "rgba(49, 130, 206, 0.1)";
+          }
+          return;
+        }
+      }
+    } catch (e) {
+      console.error("Erro ao ler os eventos do calendário no painel:", e);
+    }
+  }
+
+  titleElement.textContent = "Nenhum evento agendado";
+  badgeElement.textContent = "--";
+  badgeElement.style.color = "#a0aec0";
+  badgeElement.style.background = "rgba(255, 255, 255, 0.05)";
+}
+
+/* ----------------------------------------------
+   7. REGISTRO DO SERVICE WORKER (OFFLINE)
 -----------------------------------------------*/
 
 if ('serviceWorker' in navigator) {
@@ -158,7 +303,7 @@ if ('serviceWorker' in navigator) {
 }
 
 /* ----------------------------------------------
-   7. GATILHO DE EXECUÇÃO
+   8. GATILHO DE EXECUÇÃO GLOBAL
 -----------------------------------------------*/
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -167,4 +312,8 @@ document.addEventListener("DOMContentLoaded", () => {
   updatePlantDashboard();
   updateLevelDashboard();
   renderDashboardGoals();
+  
+  // Executa os novos cards de integração
+  updateDashboardEnergyCard();
+  updateDashboardNextEventCard();
 });

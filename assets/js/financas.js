@@ -6,6 +6,7 @@ console.log("Sistema Financeiro Carregado!");
 
 let finances = [];
 let showAllFinances = false;
+let showAllMonthlyHistory = false; // Estado global para o controle de exibição do histórico acumulado
 
 /* ----------------------------------------------
    2. FORMATADORES E UTILITÁRIOS
@@ -268,45 +269,72 @@ function renderMonthlyHistory() {
     }
   });
 
-  Object.keys(monthlyData)
+  const filteredKeys = Object.keys(monthlyData)
     .reverse()
-    .filter(key => selectedMonth === "all" || key === selectedMonth)
-    .forEach(key => {
-      const [year, month] = key.split("-");
-      const data = monthlyData[key];
-      const card = document.createElement("div");
-      card.className = "month-card";
+    .filter(key => selectedMonth === "all" || key === selectedMonth);
 
-      const balance = data.income - data.expense;
-      const monthFinances = finances.filter(finance => {
-        const fDate = new Date(finance.date);
-        return fDate.getMonth() === Number(month) && fDate.getFullYear() === Number(year);
-      });
+  const keysToShow = showAllMonthlyHistory
+    ? filteredKeys
+    : filteredKeys.slice(0, 3);
 
-      card.innerHTML = `
-        <h3>${getMonthName(Number(month))} ${year}</h3>
-        <details>
-          <summary>Ver lançamentos</summary>
-          <div class="month-details">
-            <p>📈 Receitas: ${formatMoney(data.income)}</p>
-            <p>📉 Despesas: ${formatMoney(data.expense)}</p>
-            <p>💰 Saldo: ${formatMoney(balance)}</p>
-            <hr>
-            <div class="month-transactions">
-              ${monthFinances.map(f => `
-                <div class="history-line">
-                  ${f.description} • ${getCategoryIcon(f.category)} ${f.category || "Outros"} • 
-                  <span class="${f.type === 'income' ? 'income-value' : 'expense-value'}">
-                    ${f.type === 'income' ? '+' : '-'} ${formatMoney(f.value)}
-                  </span>
-                </div>
-              `).join("")}
-            </div>
-          </div>
-        </details>
-      `;
-      container.appendChild(card);
+  keysToShow.forEach(key => {
+    const [year, month] = key.split("-");
+    const data = monthlyData[key];
+    const card = document.createElement("div");
+    card.className = "month-card";
+
+    const balance = data.income - data.expense;
+    const monthFinances = finances.filter(finance => {
+      const fDate = new Date(finance.date);
+      return fDate.getMonth() === Number(month) && fDate.getFullYear() === Number(year);
     });
+
+    card.innerHTML = `
+      <h3>${getMonthName(Number(month))} ${year}</h3>
+      <details>
+        <summary>Ver lançamentos</summary>
+        <div class="month-details">
+          <p>📈 Receitas: ${formatMoney(data.income)}</p>
+          <p>📉 Despesas: ${formatMoney(data.expense)}</p>
+          <p>💰 Saldo: ${formatMoney(balance)}</p>
+          <hr>
+          <div class="month-transactions">
+            ${monthFinances.map(f => `
+              <div class="history-line">
+                ${f.description} • ${getCategoryIcon(f.category)} ${f.category || "Outros"} • 
+                <span class="${f.type === 'income' ? 'income-value' : 'expense-value'}">
+                  ${f.type === 'income' ? '+' : '-'} ${formatMoney(f.value)}
+                </span>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </details>
+    `;
+    container.appendChild(card);
+  });
+
+  // Remove um eventual botão duplicado antes de criar o novo
+  document.getElementById("toggleMonthlyHistoryButton")?.remove();
+
+  if (filteredKeys.length > 3) {
+    const toggleBtn = document.createElement("button");
+    toggleBtn.id = "toggleMonthlyHistoryButton";
+    toggleBtn.style.cssText = "width:100%; padding:12px; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.05); border-radius:6px; color:#a0aec0; font-size:14px; cursor:pointer; margin-top:15px; transition:background 0.2s; display:flex; justify-content:center; align-items:center; gap:8px;";
+    toggleBtn.innerHTML = showAllMonthlyHistory 
+      ? `<span id="toggleMonthlyText">Mostrar menos</span> <span id="toggleMonthlyIcon">▲</span>`
+      : `<span id="toggleMonthlyText">Mostrar mais</span> <span id="toggleMonthlyIcon">▼</span>`;
+    
+    toggleBtn.addEventListener("mouseenter", () => toggleBtn.style.background = "rgba(255,255,255,0.05)");
+    toggleBtn.addEventListener("mouseleave", () => toggleBtn.style.background = "rgba(255,255,255,0.02)");
+    
+    toggleBtn.addEventListener("click", () => {
+      showAllMonthlyHistory = !showAllMonthlyHistory;
+      renderMonthlyHistory();
+    });
+    
+    container.appendChild(toggleBtn);
+  }
 }
 
 /* ----------------------------------------------
@@ -379,4 +407,10 @@ function updateAllFinanceViews() {
 document.addEventListener("DOMContentLoaded", () => {
   loadFinances();
   updateAllFinanceViews();
+
+  // Reinicia o estado de expansão do histórico quando o filtro de seleção mudar
+  document.getElementById("monthFilter")?.addEventListener("change", () => {
+    showAllMonthlyHistory = false;
+    renderMonthlyHistory();
+  });
 });

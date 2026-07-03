@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Energia - Forest Focus</title>
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <aside class="sidebar">
+        <h2>🌱 Forest Focus</h2>
+
+        <button class="menu-toggle" aria-label="Abrir menu">
+            Menu <span class="menu-icon">❯</span>
+        </button>
+
+        <nav>
+            <a href="perfil.html">👤 Perfil</a>
+            <a href="energia.html">⚡ Energia</a>
+            <a href="../index.html">🚀 Dashboard</a>
+            <a href="tarefas.html">📋 Tarefas</a>
+            <a href="calendario.html">📅 Calendário</a>
+            <a href="financas.html">🪙 Finanças</a>
+            <a href="metas.html">🎯 Metas</a>
+            <a href="https://youtu.be/IvgZ4maSn4c" target="_blank" style="margin-top: 20px; color: #ffffff; border-top: 1px solid #374151; padding-top: 15px;">
+                📻 Rádio
+            </a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+
+        <header>
+            <h1>📊 Estado de Foco e Energia</h1>
+            <p>Monitore sua mente para gerenciar seus blocos de trabalho e evitar o burnout.</p>
+        </header>
+
+        <section class="tasks">
+            <h2>Qual é o seu estado mental e de energia agora?</h2>
+            
+            <div class="mood-selector">
+                <button class="mood-btn" data-mood="Ultra Focado" title="Ultra Focado">
+                    <span class="mood-emoji">⚡</span>
+                    <span class="mood-label">Ultra Focado</span>
+                </button>
+                <button class="mood-btn" data-mood="Energia Alta" title="Energia Alta">
+                    <span class="mood-emoji">🔋</span>
+                    <span class="mood-label">Energia Alta</span>
+                </button>
+                <button class="mood-btn" data-mood="Fadiga Mental" title="Fadiga Mental">
+                    <span class="mood-emoji">📉</span>
+                    <span class="mood-label">Fadiga Mental</span>
+                </button>
+                <button class="mood-btn" data-mood="Bloqueio Criativo" title="Bloqueio Criativo">
+                    <span class="mood-emoji">🚫</span>
+                    <span class="mood-label">Bloqueio Criativo</span>
+                </button>
+                <button class="mood-btn" data-mood="Exaustão" title="Exaustão">
+                    <span class="mood-emoji">💤</span>
+                    <span class="mood-label">Exaustão</span>
+                </button>
+            </div>
+
+            <div class="task-input" style="margin-top: 25px;">
+                <input type="text" id="moodNote" placeholder="Gatilho ou observação (Ex: 5h de sono, entrega de projeto importante...)">
+                <button id="saveMoodButton">Registrar Estado</button>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="cards" style="display: grid; grid-template-columns: 1fr; gap: 20px;">
+            <div class="card">
+                <h3>📊 Distribuição de Energia</h3>
+                <div id="moodChartContainer" style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;"></div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="tasks">
+            <h2 id="currentMonthHeader">📋 Lançamentos do Mês</h2>
+            <div id="currentMonthList" class="mood-history-list"></div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <section class="tasks">
+            <h2>📅 Histórico Mensal</h2>
+            <div style="margin: 15px 0;">
+                <select id="monthFilter" style="width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; font-size: 14px; cursor: pointer;">
+                    <option value="">Selecione um mês anterior...</option>
+                </select>
+            </div>
+            <div id="archivedMonthList" class="mood-history-list"></div>
+        </section>
+
+        <footer class="main-footer" style="display:flex;justify-content:center;align-items:center;padding:20px 0;margin-top:30px;border-top:1px solid rgba(255,255,255,.05);">
+            <p style="margin:0;color:#a0aec0;font-size:14px;">
+                &copy; 2026 Forest Focus. Desenvolvido por CESCONETTO.
+            </p>
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="../assets/js/energia.js"></script>
+</body>
+</html>

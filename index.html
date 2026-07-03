@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard - Forest Focus</title>
+  <title>Dashboard - Forest Focus 1.5v</title>
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="manifest" href="./manifest.json">
@@ -15,15 +15,22 @@
   <div class="container">
 
     <aside class="sidebar">
-      <h2>🌱 Forest Focus</h2>
+      <h2>🌱 Forest Focus </h2>
+
+      <button class="menu-toggle" aria-label="Abrir menu">
+        Menu <span class="menu-icon">❯</span>
+      </button>
+
       <nav>
         <a href="pages/perfil.html">👤 Perfil</a>
+        <a href="pages/energia.html">⚡ Energia</a>
         <a href="#">🚀 Dashboard</a>
         <a href="pages/tarefas.html">📋 Tarefas</a>
+        <a href="pages/calendario.html">📅 Calendário</a>
         <a href="pages/financas.html">🪙 Finanças</a>
         <a href="pages/metas.html">🎯 Metas</a>
-        <a href="https://www.youtube.com/watch?v=yv2-8z_p5kw" target="_blank" style="margin-top: 20px; color: #10b981; border-top: 1px solid #374151; padding-top: 15px;">
-          📻 Relaxe aqui!
+        <a href="https://youtu.be/IvgZ4maSn4c" target="_blank" style="margin-top: 20px; color: #ffffff; border-top: 1px solid #374151; padding-top: 15px;">
+          📻 Rádio
         </a>
       </nav>
     </aside>
@@ -47,57 +54,90 @@
         </div>
       </header>
 
-      <section class="cards">
+      <section class="cards" style="display: flex; flex-direction: column; gap: 20px; width: 100%;">
 
-        <div class="card card-dash" style="display: flex; flex-direction: column; justify-content: flex-start; min-height: 160px; padding: 20px;">
-          <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #fff; font-weight: 500; text-align: left; width: 100%;">📋 Tarefas Pendentes</h3>
-          <div style="display: flex; justify-content: center; align-items: center; flex-grow: 1; width: 100%;">
-            <p id="taskCounter" class="dash-number" style="margin: 0; font-size: 36px; font-weight: bold; color: #fff; line-height: 1; text-align: center;">0</p>
+        <!-- 1. BLOCO UNIFICADO DO TOPO (Métricas de Tarefas e Progresso) -->
+        <div class="card card-dash" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: center; padding: 25px; min-height: auto;">
+          <div class="metric-item" style="text-align: center; border-right: 1px solid rgba(255,255,255,0.05);">
+            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #a0aec0; font-weight: 500;">📋 Tarefas Pendentes</h3>
+            <p id="taskCounter" class="dash-number" style="margin: 0; font-size: 32px; font-weight: bold; color: #fff; line-height: 1;">0</p>
           </div>
-        </div>
-
-        <div class="card card-dash" style="display: flex; flex-direction: column; justify-content: flex-start; min-height: 160px; padding: 20px;">
-          <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #fff; font-weight: 500; text-align: left; width: 100%;">✅ Tarefas Concluídas</h3>
-          <div style="display: flex; justify-content: center; align-items: center; flex-grow: 1; width: 100%;">
-            <p id="completedCounter" class="dash-number" style="margin: 0; font-size: 36px; font-weight: bold; color: #fff; line-height: 1; text-align: center;">0</p>
+          
+          <div class="metric-item" style="text-align: center; border-right: 1px solid rgba(255,255,255,0.05);">
+            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #a0aec0; font-weight: 500;">✅ Tarefas Concluídas</h3>
+            <p id="completedCounter" class="dash-number" style="margin: 0; font-size: 32px; font-weight: bold; color: #fff; line-height: 1;">0</p>
           </div>
-        </div>
 
-        <div class="card card-dash" style="display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; padding: 20px;">
-          <h3 style="margin: 0; text-align: left;">📊 Progresso</h3>
-          <div style="margin-top: auto; margin-bottom: auto; width: 100%;">
-            <p id="progressText" class="dash-number" style="font-size: 24px; font-weight: bold; margin: 0 0 10px 0; text-align: left;">0%</p>
-            <div class="progress-bar" style="width: 100%; height: 6px; background: #2d2d44; border-radius: 3px; overflow: hidden;">
+          <div class="metric-item" style="text-align: center; padding: 0 10px;">
+            <h3 style="margin: 0 0 10px 0; font-size: 14px; color: #a0aec0; font-weight: 500;">📊 Progresso</h3>
+            <p id="progressText" class="dash-number" style="font-size: 24px; font-weight: bold; margin: 0 0 10px 0; text-align: center;">0%</p>
+            <div class="progress-bar" style="width: 100%; height: 6px; background: #2d2d44; border-radius: 3px; overflow: hidden; margin: 0 auto;">
               <div id="progressFill" style="height: 100%; background: #6366f1; width: 0%;"></div>
             </div>
           </div>
         </div>
 
-        <div class="card card-dash" style="display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; padding: 20px;">
-          <h3 style="margin: 0;">🌱 Planta</h3>
-          <div style="margin-top: auto; margin-bottom: auto; text-align: center; width: 100%;">
-            <div id="plantStage" style="font-size: 42px; margin: 5px 0;">🌱</div>
-            <p id="plantProgress" style="color: var(--text-muted); font-size: 14px; margin: 0; font-weight: 500;">Brotando...</p>
-          </div>
-        </div>
-
-        <div class="card card-dash" style="display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; padding: 20px;">
-          <h3 style="margin: 0;">💰 Finanças</h3>
-          <div style="margin-top: auto; margin-bottom: auto; text-align: center; width: 100%;">
-            <p id="financeMonth" style="color: var(--text-muted); font-size: 12px; margin: 0;">Junho 2026</p>
-            <p id="balanceText" style="font-size: 24px; font-weight: bold; margin: 5px 0;">R$ 0,00</p>
-            <div class="finance-summary" style="margin-top: 5px; display: flex; gap: 15px; justify-content: center;">
-              <span id="incomeText" style="font-size: 13px;">📈 R$ 0,00</span>
-              <span id="expenseText" style="font-size: 13px;">📉 R$ 0,00</span>
+        <!-- 2. NOVA LINHA DO MEIO: ENERGIA & CALENDÁRIO (GRID 2 COLUNAS) -->
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%;">
+          
+          <!-- Card de Estado de Energia Recente -->
+          <div class="card card-dash" style="min-height: 150px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
+            <h3 style="margin: 0; font-size: 14px; color: #a0aec0; font-weight: 500; align-self: flex-start;">⚡ Energia Recente</h3>
+            <div id="dashEnergyStatus" style="display: flex; align-items: center; gap: 15px; margin-top: auto; margin-bottom: auto;">
+              <span id="dashEnergyEmoji" style="font-size: 36px;">🔋</span>
+              <div>
+                <h4 id="dashEnergyLabel" style="margin: 0; font-size: 18px; color: #fff; font-weight: bold;">Carregando...</h4>
+                <p id="dashEnergyNote" style="margin: 5px 0 0 0; font-size: 13px; color: #a0aec0; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 250px;">"Buscando último registro..."</p>
+              </div>
             </div>
           </div>
+
+          <!-- Card de Compromisso Mais Próximo -->
+          <div class="card card-dash" style="min-height: 150px; display: flex; flex-direction: column; justify-content: center; padding: 20px;">
+            <h3 style="margin: 0; font-size: 14px; color: #a0aec0; font-weight: 500; align-self: flex-start;">📅 Evento mais próximo</h3>
+            <div id="dashNextEvent" style="margin-top: auto; margin-bottom: auto; width: 100%;">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: rgba(255,255,255,0.02); border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);">
+                <span id="dashEventTitle" style="font-size: 15px; font-weight: 500; color: #fff;">Nenhum evento agendado</span>
+                <span id="dashEventBadge" style="font-size: 12px; color: #3182ce; background: rgba(49,130,206,0.1); padding: 4px 10px; border-radius: 4px; font-weight: bold;">--</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        <div class="card card-dash" style="display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; padding: 20px;">
-          <h3 style="margin: 0; text-align: left;">🎯 Suas Metas</h3>
-          <div id="dashboardGoalsContent" style="margin-top: auto; margin-bottom: auto; width: 100%; display: flex; flex-direction: column; justify-content: center;">
-            <p style="color: #a0aec0; font-style: italic; font-size: 14px; margin: 0; text-align: left;">Carregando metas...</p>
+        <!-- 3. TRES CARDS DO INFERIOR (PERMANECEM IGUAIS EM GRID 3 COLUNAS) -->
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%;">
+          
+          <!-- Card Planta -->
+          <div class="card card-dash" style="display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; padding: 20px;">
+            <h3 style="margin: 0; text-align: left;">🌱 Planta</h3>
+            <div style="margin-top: auto; margin-bottom: auto; text-align: center; width: 100%;">
+              <div id="plantStage" style="font-size: 42px; margin: 5px 0;">🌱</div>
+              <p id="plantProgress" style="color: var(--text-muted); font-size: 14px; margin: 0; font-weight: 500;">Brotando...</p>
+            </div>
           </div>
+
+          <!-- Card Finanças -->
+          <div class="card card-dash" style="display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; padding: 20px;">
+            <h3 style="margin: 0; text-align: left;">💰 Finanças</h3>
+            <div style="margin-top: auto; margin-bottom: auto; text-align: center; width: 100%;">
+              <p id="financeMonth" style="color: var(--text-muted); font-size: 12px; margin: 0;">Junho 2026</p>
+              <p id="balanceText" style="font-size: 24px; font-weight: bold; margin: 5px 0;">R$ 0,00</p>
+              <div class="finance-summary" style="margin-top: 5px; display: flex; gap: 15px; justify-content: center;">
+                <span id="incomeText" style="font-size: 13px;">📈 R$ 0,00</span>
+                <span id="expenseText" style="font-size: 13px;">📉 R$ 0,00</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Suas Metas -->
+          <div class="card card-dash" style="display: flex; flex-direction: column; justify-content: space-between; min-height: 160px; padding: 20px;">
+            <h3 style="margin: 0; text-align: left;">🎯 Suas Metas</h3>
+            <div id="dashboardGoalsContent" style="margin-top: auto; margin-bottom: auto; width: 100%; display: flex; flex-direction: column; justify-content: center;">
+              <p style="color: #a0aec0; font-style: italic; font-size: 14px; margin: 0; text-align: left;">Carregando metas...</p>
+            </div>
+          </div>
+
         </div>
 
       </section>
